@@ -39,3 +39,22 @@ const menuTemplate = [
 if (process.platform === 'darwin') {
   menuTemplate.unshift({});
 }
+
+// Only show the 'View' menu if the app doesn't run in production
+if (process.env !== 'production') {
+  menuTemplate.push(
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',
+          click(item, forcusedWindow) {
+            forcusedWindow.toggleDevTools();
+          }
+        }
+      ]
+    }
+  );
+}
