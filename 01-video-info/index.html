@@ -12,13 +12,25 @@
       <button type="submit">Get Info</button>
     </form>
 
+    <h1 id="result"></h1>
+
     <script>
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
+
       document.querySelector('form').addEventListener('submit', (event) => {
         // Stop the form from submitting its contents to any servers
         event.preventDefault();
 
         // Get information for the file selected
         const file = document.querySelector('input').files[0];
+
+        // Communicate with the Electron side of things
+        ipcRenderer.send('video:submit', file.path);
+      });
+
+      ipcRenderer.on('video:metadata', (event, duration) => {
+        document.getElementById('result').innerHTML = `Video length is: ${duration} seconds.`;
       });
     </script>
   </body>
