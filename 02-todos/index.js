@@ -47,6 +47,11 @@ ipcMain.on('todo:add', (event, todo) => {
   addWindow.close();
 });
 
+// Clear todos
+function clearTodos() {
+  mainWindow.webContents.send('todos:clear');
+}
+
 // Define the app menu template with label and submenu items
 const menuTemplate = [
   {
@@ -56,6 +61,11 @@ const menuTemplate = [
         label: 'New Todo',
         accelerator: process.platform === 'darwin' ? 'Command+N' : 'Ctrl+N',
         click() { createAddWindow(); }
+      },
+      {
+        label: 'Clear Todos',
+        accelerator: process.platform === 'darwin' ? 'Command+Alt+R': 'Ctrl+Alt+R',
+        click() { clearTodos(); }
       },
       {
         label: 'Quit',
