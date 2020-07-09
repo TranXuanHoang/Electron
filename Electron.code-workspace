@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "01-video-info"
+		},
+		{
+			"path": "02-todos"
 		}
 	]
 }
