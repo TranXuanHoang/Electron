@@ -1,5 +1,6 @@
 const electron = require('electron');
 const path = require('path');
+const MainWindow = require('./app/main_window');
 const TimerTray = require('./app/timer_tray');
 
 const { app, BrowserWindow } = electron;
@@ -13,25 +14,8 @@ app.on('ready', () => {
     app.dock.hide();
   }
 
-  mainWindow = new BrowserWindow({
-    webPreferences: {
-      nodeIntegration: true
-    },
-    height: 500,
-    width: 300,
-    frame: false,
-    resizable: false,
-    show: false
-  });
-
-  mainWindow.loadFile('./src/index.html');
-
-  // Hide the main window when user clicks to area outside of it and not the tray icon as well.
-  // Note that the 'blur' event handling here interferes with the tray.on('click'), so
-  // clicking tray icon will not toggle the mainWindow as we expected
-  mainWindow.on('blur', () => {
-    mainWindow.hide();
-  });
+  // Define the main window of the app
+  mainWindow = new MainWindow('./src/index.html');
 
   // Define the tray
   const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
