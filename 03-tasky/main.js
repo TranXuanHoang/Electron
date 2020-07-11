@@ -3,7 +3,7 @@ const path = require('path');
 const MainWindow = require('./app/main_window');
 const TimerTray = require('./app/timer_tray');
 
-const { app, BrowserWindow } = electron;
+const { app, ipcMain } = electron;
 
 let mainWindow;
 let tray;
@@ -27,4 +27,13 @@ app.on('ready', () => {
   // the TimerTray using a variable and note that while an object is referred by any
   // variables, it will not be garbage collected.
   tray = new TimerTray(iconPath, mainWindow);
+});
+
+ipcMain.on('timer-update', (event, timeLeft) => {
+  if (process.platform === 'darwin') {
+    // setTitle only supports macOS
+    tray.setTitle(timeLeft);
+  } else {
+    tray.setToolTip(timeLeft === '' ? 'Timer App' : `Timer App | Time remaining: ${timeLeft}`);
+  }
 });

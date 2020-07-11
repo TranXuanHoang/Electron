@@ -5,7 +5,8 @@ class MainWindow extends BrowserWindow {
   constructor(filePath) {
     super({
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        backgroundThrottling: false // Force Electron to run the underlying process even though it is in background mode
       },
       height: 500,
       width: 300,
