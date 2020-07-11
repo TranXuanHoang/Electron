@@ -26,10 +26,27 @@ app.on('ready', () => {
   tray = new Tray(iconPath);
 
   // Toggle the mainWindow when user clicks the tray icon
-  tray.on('click', () => {
+  tray.on('click', (event, bounds) => {
     if (mainWindow.isVisible()) {
       mainWindow.hide();
     } else {
+      // Mouse click event location
+      const { x, y } = bounds;
+
+      // Window heigh and width
+      const { height, width } = mainWindow.getBounds();
+
+      // Calculate the y position based on the OS on which the app will run
+      const yPosition = process.platform === 'darwin' ? y : y - height;
+
+      // Position the window right before showing it
+      mainWindow.setBounds({
+        x: x - width / 2,
+        y: yPosition,
+        width,
+        height
+      });
+
       mainWindow.show();
     }
   });
