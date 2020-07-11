@@ -8,6 +8,11 @@ let mainWindow;
 let tray;
 
 app.on('ready', () => {
+  // Hide the app icon from the user's dock on MacOS
+  if (process.platform === 'darwin') {
+    app.dock.hide();
+  }
+
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true
@@ -20,6 +25,13 @@ app.on('ready', () => {
   });
 
   mainWindow.loadFile('./src/index.html');
+
+  // Hide the main window when user clicks to area outside of it and not the tray icon as well.
+  // Note that the 'blur' event handling here interferes with the tray.on('click'), so
+  // clicking tray icon will not toggle the mainWindow as we expected
+  mainWindow.on('blur', () => {
+    mainWindow.hide();
+  });
 
   // Define the tray
   const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
