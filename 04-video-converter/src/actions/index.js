@@ -17,7 +17,9 @@ export const addVideos = videos => dispatch => {
 // from the MainWindow regarding the current state of
 // conversion.
 export const convertVideos = () => (dispatch, getState) => {
-
+  const { videos } = getState();
+  const videosList = Object.values(videos); // convert to an array of videos
+  ipcRenderer.send('conversion:start', videosList);
 };
 
 // TODO: Open the folder that the newly created video
