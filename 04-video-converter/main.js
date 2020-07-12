@@ -2,7 +2,7 @@ const electron = require('electron');
 const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
 
-const { app, BrowserWindow, ipcMain } = electron;
+const { app, BrowserWindow, ipcMain, shell } = electron;
 
 let mainWindow;
 
@@ -75,4 +75,8 @@ ipcMain.on('conversion:start', (event, videos) => {
       })
       .save(outputPath);
   });
+});
+
+ipcMain.on('folder:open', (event, outputPath) => {
+  shell.showItemInFolder(outputPath);
 });
