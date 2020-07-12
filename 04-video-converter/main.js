@@ -57,16 +57,21 @@ ipcMain.on('conversion:start', (event, videos) => {
 
     ffmpeg(video.path)
       .on('progress', (progress) => {
-        //TODO
+        // Note that the 'progess.percent' may be inaccurate
+        // (see https://www.npmjs.com/package/fluent-ffmpeg#progress-transcoding-progress-information)
         console.log('Processing: ' + progress.percent + '% done');
+
+        // So we pass timemark back to React side and let it determine the percent of the progress
+        mainWindow.webContents.send('conversion:progress', { video, timemark: progress.timemark });
       })
       .on('error', (err) => {
-        //TODO
+        // Can send an error message to the renderer process and let user know about the error.
+        // Here we simple print out the error log for dev purpose.
         console.log('An error occurred: ' + err.message);
       })
       .on('end', (stdout, stderr) => {
-        //TODO
-        console.log(`Processing finished! '${filePath.name}${filePath.ext}' was converted to '${filePath.name}.${video.format}'`);
+        // console.log(`Processing finished! '${filePath.name}${filePath.ext}' was converted to '${filePath.name}.${video.format}'`);
+        mainWindow.webContents.send('conversion:end', { video, outputPath });
       })
       .save(outputPath);
   });
