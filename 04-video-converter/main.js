@@ -50,11 +50,6 @@ ipcMain.on('conversion:start', (event, videos) => {
     const outputName = filePath.name;
     const outputPath = path.join(outputDirectory, `${outputName}.${video.format}`);
 
-    console.log('______');
-    console.log(outputDirectory);
-    console.log(outputName);
-    console.log(outputPath);
-
     ffmpeg(video.path)
       .on('progress', (progress) => {
         // Note that the 'progess.percent' may be inaccurate
