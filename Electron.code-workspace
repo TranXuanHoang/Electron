@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "04-video-converter"
+		},
+		{
+			"path": "05-hot-reload"
 		}
 	]
 }
