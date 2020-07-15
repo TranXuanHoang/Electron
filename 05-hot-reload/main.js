@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 
 // Should keep a global reference of the main window object,
@@ -80,10 +80,60 @@ function downloadImage() {
   })
 }
 
+function showDialogs() {
+  ipcMain.on('open:files', () => {
+    dialog.showOpenDialog(mainWindow, {
+      title: 'Open',
+      message: 'Select files/folders to open',
+      defaultPath: `${app.getPath('downloads')}`,
+      properties: ["openFile", "multiSelections"]
+    }).then(value => {
+      console.log(value)
+      mainWindow.send('dialogResult', { operation: "Open Dialog", value: value })
+    }).catch(err => {
+      console.log(err)
+    })
+  })
+
+  ipcMain.on('save:file', () => {
+    dialog.showSaveDialog(mainWindow, {
+      title: 'Save',
+      message: 'Select location to save',
+      defaultPath: `${app.getPath('downloads')}`,
+      properties: ["createDirectory", "showOverwriteConfirmation"]
+    }).then(value => {
+      console.log(value)
+      mainWindow.send('dialogResult', { operation: "Save File", value: value })
+    }).catch(err => {
+      console.log(err)
+    })
+  })
+
+  ipcMain.on('notification', () => {
+    const menu = ['Rice', 'Eggs', 'Meat', 'Wine']
+    dialog.showMessageBox(mainWindow, {
+      message: "What do you want to have?",
+      buttons: menu
+    }).then(value => {
+      console.log(value)
+      mainWindow.send('dialogResult',
+        {
+          operation: 'Notification',
+          value: {
+            question: 'What do you want to have',
+            answer: menu[value.response]
+          }
+        })
+    })
+  })
+}
+
 app.on('ready', () => {
   createMainWindow()
 
   downloadImage()
+
+  showDialogs()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

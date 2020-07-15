@@ -12,6 +12,7 @@
     Chrome <script>document.write(process.versions.chrome)</script>,
     Electron <script>document.write(process.versions.electron)</script>.
 
+    <hr>
     <div>
       <h3>A Random Image</h3>
       <!-- Use image from https://picsum.photos/ -->
@@ -31,8 +32,43 @@
       </div>
     </div>
 
+    <hr>
+    <div>
+      <h3>Dialogs</h3>
+      <button id="openFiles">Open Files</button>
+      <button id="saveFile">Save File</button>
+      <button id="notifications">Notification</button>
+
+      <div id="dialogResult">
+        <h5></h5>
+        <pre></pre>
+      </div>
+    </div>
+
     <script>
+      const electron = require('electron')
+      const { ipcRenderer } = electron
+
       window.progress = document.getElementById('downloadProgress')
+
+      document.querySelector('#openFiles').addEventListener('click', () => {
+        // Send a message to the app process asking for opening a file picker dialog
+        ipcRenderer.send('open:files')
+      })
+      document.querySelector('#saveFile').addEventListener('click', () => {
+        // Send a message to the app process asking for opening file saving dialog
+        ipcRenderer.send('save:file')
+      })
+      document.querySelector('#notifications').addEventListener('click', () => {
+        // Send a message to the app process asking for showing a message dialog
+        ipcRenderer.send('notification')
+      })
+
+      ipcRenderer.on('dialogResult', (event, result) => {
+        const dialogResult = document.querySelector('#dialogResult')
+        dialogResult.querySelector('h5').innerText = result.operation
+        dialogResult.querySelector('pre').innerText = JSON.stringify(result.value, null, 2)
+      })
     </script>
   </body>
 </html>

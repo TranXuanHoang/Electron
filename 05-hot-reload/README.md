@@ -4,6 +4,7 @@ A demo cross-platform desktop application written with Electron with the followi
 
 * Project can be hot reloaded during the development step
 * Provides an example of downloading file into local machine
+* Opening dialogs for opening/saving files and showing message box
 
 The project source code is set up to use the following npm dependencies
 
