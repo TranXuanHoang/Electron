@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron')
+const electron = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, Menu } = electron
 const windowStateKeeper = require('electron-window-state')
 
 // Should keep a global reference of the main window object,
@@ -141,6 +142,28 @@ function handleRightClick() {
   })
 }
 
+function powerMonitor() {
+  // Handle the power events of the machine
+  // Note that, we can only call powerMonitor when the app is 'ready'
+  electron.powerMonitor.on('suspend', event => {
+    // In the real app, this event listener could be used to save data before
+    // the app is suspended
+    console.log('App is suspended')
+  })
+
+  electron.powerMonitor.on('lock-screen', event => {
+    console.log('Screen is locked')
+  })
+
+  electron.powerMonitor.on('unlock-screen', event => {
+    console.log('Screen is unlocked')
+    dialog.showMessageBox(mainWindow, {
+      message: 'Welcome back',
+      buttons: ['OK']
+    })
+  })
+}
+
 app.on('ready', () => {
   createMainWindow()
 
@@ -149,6 +172,8 @@ app.on('ready', () => {
   showDialogs()
 
   handleRightClick()
+
+  powerMonitor()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

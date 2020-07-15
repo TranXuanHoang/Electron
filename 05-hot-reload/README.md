@@ -6,6 +6,7 @@ A demo cross-platform desktop application written with Electron with the followi
 * Provides an example of downloading file into local machine
 * Opening dialogs for opening/saving files and showing message box
 * Popup a context menu when right clicking on the app window
+* App looks into the power event to act accordingly
 
 The project source code is set up to use the following npm dependencies
 
