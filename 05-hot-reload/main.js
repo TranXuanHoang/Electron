@@ -37,7 +37,7 @@ function createMainWindow() {
   if (process.env !== 'production') {
     // Note that, openDevTools may cause some APIs working incorrectly, so should
     // comment the following line of code when testing and facing strange thing
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
   }
 
   // Listen for window being close, then free the memory
@@ -46,7 +46,45 @@ function createMainWindow() {
   })
 }
 
-app.on('ready', createMainWindow)
+function downloadImage() {
+  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
+    // Specify the location for saving file (this is optional, default location is 'Download' folder)
+    item.setSavePath(app.getPath("desktop") + `/${item.getFilename()}`)
+
+    item.on('updated', (event, state) => {
+      if (state === 'interrupted') {
+        console.log('Download is interrupted but can be resumed')
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          console.log('Download is paused')
+        } else {
+          console.log(`Recieved bytes: ${item.getReceivedBytes()}`)
+          let percentDone = Math.round((item.getReceivedBytes() / item.getTotalBytes()) * 100)
+          console.log(`${percentDone}% finished`)
+
+          // Update the progress bar on screen
+          // The following method is not a good practice. Should use IPC to update
+          // the UI instead
+          webContents.executeJavaScript(`window.progress.value = ${percentDone}`)
+        }
+      }
+    })
+
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        console.log('Download successfully')
+      } else {
+        console.log(`Download failed: ${state}`)
+      }
+    })
+  })
+}
+
+app.on('ready', () => {
+  createMainWindow()
+
+  downloadImage()
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

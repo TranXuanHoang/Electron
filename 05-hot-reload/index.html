@@ -11,5 +11,28 @@
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     Electron <script>document.write(process.versions.electron)</script>.
+
+    <div>
+      <h3>A Random Image</h3>
+      <!-- Use image from https://picsum.photos/ -->
+      <img src="https://picsum.photos/200/200">
+
+      <h3>Another Image</h3>
+      <p>Click on the following image to download it</p>
+      <div>
+        <progress id="downloadProgress" value="0" max="100"></progress>
+      </div>
+      <div>
+        <a href="https://upload.wikimedia.org/wikipedia/commons/6/69/Motherhood_and_apple_pie.jpg"
+          download>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Motherhood_and_apple_pie.jpg/640px-Motherhood_and_apple_pie.jpg"
+            width="200">
+        </a>
+      </div>
+    </div>
+
+    <script>
+      window.progress = document.getElementById('downloadProgress')
+    </script>
   </body>
 </html>

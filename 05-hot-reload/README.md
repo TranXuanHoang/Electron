@@ -1,6 +1,11 @@
 # Overview
 
-A demo cross-platform desktop application written with Electron. The project source code is set up to use the following npm dependencies
+A demo cross-platform desktop application written with Electron with the following features:
+
+* Project can be hot reloaded during the development step
+* Provides an example of downloading file into local machine
+
+The project source code is set up to use the following npm dependencies
 
 |Package |Purpose |
 |--------|--------|
