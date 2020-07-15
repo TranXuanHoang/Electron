@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 
 // Should keep a global reference of the main window object,
@@ -128,12 +128,27 @@ function showDialogs() {
   })
 }
 
+function handleRightClick() {
+  // Show an edit menu when user right clicks
+  const contextMenu = Menu.buildFromTemplate([
+    { role: "toggleDevTools" },
+    { role: "viewMenu" },
+    { role: "editMenu" }
+  ])
+
+  mainWindow.webContents.on('context-menu', event => {
+    contextMenu.popup()
+  })
+}
+
 app.on('ready', () => {
   createMainWindow()
 
   downloadImage()
 
   showDialogs()
+
+  handleRightClick()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
