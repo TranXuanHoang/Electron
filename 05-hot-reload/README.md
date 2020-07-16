@@ -7,6 +7,7 @@ A demo cross-platform desktop application written with Electron with the followi
 * Opening dialogs for opening/saving files and showing message box
 * Popup a context menu when right clicking on the app window
 * App looks into the power event to act accordingly
+* Toggle full screen mode and open PDF files
 
 The project source code is set up to use the following npm dependencies
 

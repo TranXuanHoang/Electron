@@ -51,7 +51,15 @@
       <textarea rows="4" cols="50"></textarea>
     </div>
 
+    <hr>
+    <div>
+      <h3>Access main process from the renderer process via remote</h3>
+      <button id="fullScreen">Toggle Full Screen</button>
+      <button id="openPdfFile">Open a PDF file</button>
+    </div>
+
     <script>
+      require('./renderer')
       const electron = require('electron')
       const { ipcRenderer } = electron
 
