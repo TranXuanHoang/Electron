@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h3 {
+  color: cadetblue
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 50px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: bisque
+}

@@ -9,6 +9,7 @@ A demo cross-platform desktop application written with Electron with the followi
 * App looks into the power event to act accordingly
 * Toggle full screen mode and open PDF files
 * Zoom screen bigger/smaller or reset back to normal
+* Take captures of the screen or the app
 
 The project source code is set up to use the following npm dependencies
 

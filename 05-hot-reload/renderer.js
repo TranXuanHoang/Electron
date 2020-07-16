@@ -6,7 +6,7 @@
  */
 const remote = require('electron').remote
 const { dialog, BrowserWindow } = remote
-const { webFrame } = require('electron')
+const { webFrame, desktopCapturer } = require('electron')
 
 document.querySelector('#fullScreen').addEventListener('click', event => {
   let win = remote.getCurrentWindow()
@@ -52,4 +52,28 @@ document.querySelector('#zoomSmaller').addEventListener('click', event => {
 
 document.querySelector('#zoomReset').addEventListener('click', event => {
   webFrame.setZoomLevel(1)
+})
+
+document.querySelector('#captureScreen').addEventListener('click', () => {
+  desktopCapturer.getSources({
+    types: ['screen'],
+    thumbnailSize: { width: 1920, height: 1080 }
+  }).then(async sources => {
+    console.log(sources)
+    document.querySelector('#captureImage').src = sources[0].thumbnail.toDataURL()
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
+document.querySelector('#captureApp').addEventListener('click', () => {
+  desktopCapturer.getSources({
+    types: ['window'],
+    thumbnailSize: { width: 1920, height: 1080 }
+  }).then(async sources => {
+    console.log(sources)
+    document.querySelector('#captureImage').src = sources[0].thumbnail.toDataURL()
+  }).catch(err => {
+    console.log(err)
+  })
 })
