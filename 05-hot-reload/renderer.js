@@ -6,6 +6,7 @@
  */
 const remote = require('electron').remote
 const { dialog, BrowserWindow } = remote
+const { webFrame } = require('electron')
 
 document.querySelector('#fullScreen').addEventListener('click', event => {
   let win = remote.getCurrentWindow()
@@ -39,4 +40,16 @@ document.querySelector('#openPdfFile').addEventListener('click', event => {
       message: `Cannot open any PDF files: ${err}`
     })
   })
+})
+
+document.querySelector('#zoomBigger').addEventListener('click', event => {
+  webFrame.setZoomLevel(webFrame.getZoomLevel() + 1)
+})
+
+document.querySelector('#zoomSmaller').addEventListener('click', event => {
+  webFrame.setZoomLevel(webFrame.getZoomLevel() - 1)
+})
+
+document.querySelector('#zoomReset').addEventListener('click', event => {
+  webFrame.setZoomLevel(1)
 })
