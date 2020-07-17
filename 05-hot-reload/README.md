@@ -34,3 +34,7 @@ The project source code is set up to use the following npm dependencies
 
 * Run app without hot reload:
 `npm run start`
+
+## App Snapshot
+
+![App Snapshot](./docs/AppSnapshot.gif)
