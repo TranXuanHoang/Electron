@@ -14,6 +14,7 @@ A demo cross-platform desktop application written with Electron with the followi
 * Zoom screen bigger/smaller or reset back to normal
 * Take captures of the screen or the app
 * Get notifications
+* Save files to local hard disk (Preload JavaScript before loading HTML contents)
 
 The project source code is set up to use the following npm dependencies
 

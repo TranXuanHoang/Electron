@@ -100,3 +100,15 @@ document.querySelector('#getNotifications').addEventListener('click', e => {
     document.getElementById('notification').appendChild(li)
   }
 })
+
+document.querySelector('#openTextEditor').addEventListener('click', e => {
+  let textEditor = new BrowserWindow({
+    width: 400,
+    height: 300,
+    webPreferences: {
+      preload: `${__dirname}/write-file/preload.js`
+    }
+  })
+  textEditor.loadFile('./write-file/write-file.html')
+  textEditor.on('close', e => textEditor = null)
+})
