@@ -112,3 +112,17 @@ document.querySelector('#openTextEditor').addEventListener('click', e => {
   textEditor.loadFile('./write-file/write-file.html')
   textEditor.on('close', e => textEditor = null)
 })
+
+document.querySelector('#startProgressBar').addEventListener('click', e => {
+  const win = remote.getCurrentWindow()
+  let progress = 0
+  let timer = setInterval(() => {
+    if (progress >= 0 && progress < 1) {
+      progress += 0.01
+    } else {
+      progress = -1
+      clearInterval(timer)
+    }
+    win.setProgressBar(progress)
+  }, 100)
+})

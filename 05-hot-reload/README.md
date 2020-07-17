@@ -15,6 +15,7 @@ A demo cross-platform desktop application written with Electron with the followi
 * Take captures of the screen or the app
 * Get notifications
 * Save files to local hard disk (Preload JavaScript before loading HTML contents)
+* Show a progress bar simulating something is running in the background
 
 The project source code is set up to use the following npm dependencies
 
