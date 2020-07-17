@@ -1,5 +1,8 @@
 # Overview
 
+[![made-with-Electron](https://img.shields.io/badge/Made%20with-Electron-1f425f.svg)](https://www.electronjs.org/)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
+
 A demo cross-platform desktop application written with Electron with the following features:
 
 * Project can be hot reloaded during the development step
@@ -10,6 +13,7 @@ A demo cross-platform desktop application written with Electron with the followi
 * Toggle full screen mode and open PDF files
 * Zoom screen bigger/smaller or reset back to normal
 * Take captures of the screen or the app
+* Get notifications
 
 The project source code is set up to use the following npm dependencies
 

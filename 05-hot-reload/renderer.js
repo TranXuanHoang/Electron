@@ -77,3 +77,26 @@ document.querySelector('#captureApp').addEventListener('click', () => {
     console.log(err)
   })
 })
+
+document.querySelector('#getNotifications').addEventListener('click', e => {
+  let notification = new Notification('New Message', {
+    body: 'A new message was recieved.'
+  })
+
+  notification.onclick = e => {
+    // Bring the app window up to the screen
+    win = remote.getCurrentWindow()
+    if (!win.isVisible()) {
+      win.show()
+    }
+    win.focus()
+    notification = null
+
+    // Display notification received message on the app window
+    const li = document.createElement('li')
+    const text = document.createTextNode(
+      `Received a new notification at ${new Date().toLocaleTimeString()}`)
+    li.appendChild(text)
+    document.getElementById('notification').appendChild(li)
+  }
+})
