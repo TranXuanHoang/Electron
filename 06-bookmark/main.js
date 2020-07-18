@@ -3,18 +3,34 @@
  */
 const electron = require('electron')
 const { app, BrowserWindow } = electron
+const windowStateKeeper = require('electron-window-state')
 
 let mainWindow
 
 function createWindow() {
+  // Load the previous state with fallback to default
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 500,
+    defaultHeight: 650
+  })
+
+  // Create the window using the state information
   mainWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    minWidth: 350, maxWidth: 650, minHeight: 300,
     webPreferences: {
       nodeIntegration: true
     }
   })
   mainWindow.loadFile('renderer/index.html')
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(mainWindow)
 }
 
 // This method will be called when Electron has finished

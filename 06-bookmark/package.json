@@ -17,5 +17,8 @@
   "devDependencies": {
     "electron": "^9.1.0",
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "electron-window-state": "^5.0.3"
   }
 }
