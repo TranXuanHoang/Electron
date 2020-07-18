@@ -1,0 +1,21 @@
+{
+  "name": "06-bookmark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch": "nodemon --exec 'electron .'"
+  },
+  "keywords": [
+    "Electron",
+    "cross-platform",
+    "desktop app"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^9.1.0",
+    "nodemon": "^2.0.4"
+  }
+}

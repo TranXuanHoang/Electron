@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "05-hot-reload"
+		},
+		{
+			"path": "06-bookmark"
 		}
 	]
 }
