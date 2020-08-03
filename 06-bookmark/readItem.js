@@ -5,7 +5,6 @@ let offscreenWindow
 
 // Export readItem function
 module.exports = (url, callback) => {
-  console.log(`Here in readItem.js ${url}`)
   // Create offscreen window
   offscreenWindow = new BrowserWindow({
     width: 500,
