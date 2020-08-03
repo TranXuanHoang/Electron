@@ -2,7 +2,7 @@
  * Logic for the main process
  */
 const electron = require('electron')
-const { app, BrowserWindow } = electron
+const { app, BrowserWindow, ipcMain } = electron
 const windowStateKeeper = require('electron-window-state')
 
 let mainWindow
@@ -59,3 +59,11 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// Listen for new item request
+ipcMain.on('new-item', (e, itemUrl) => {
+  // Get new item and send back to renderer
+  setTimeout(() => {
+    e.sender.send('new-item-success', 'New item from main process')
+  }, 2000)
+})
