@@ -5,6 +5,8 @@ const electron = require('electron')
 const { app, BrowserWindow, ipcMain } = electron
 const windowStateKeeper = require('electron-window-state')
 
+const readItem = require('./readItem')
+
 let mainWindow
 
 function createWindow() {
@@ -63,7 +65,8 @@ app.on('activate', () => {
 // Listen for new item request
 ipcMain.on('new-item', (e, itemUrl) => {
   // Get new item and send back to renderer
-  setTimeout(() => {
-    e.sender.send('new-item-success', 'New item from main process')
-  }, 2000)
+  readItem(itemUrl, item => {
+    console.log(itemUrl)
+    e.sender.send('new-item-success', item)
+  })
 })
