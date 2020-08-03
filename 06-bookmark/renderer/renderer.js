@@ -23,6 +23,13 @@ search.addEventListener('keyup', e => {
   })
 })
 
+// Navigate item selection with up/down arrows
+document.addEventListener('keydown', e => {
+  if (e.key ==='ArrowUp' || e.key == 'ArrowDown') {
+    items.changeSelection(e.key)
+  }
+})
+
 // Disable & Enable modal buttons
 const toggleModalButtons = () => {
   // Check state of buttons
