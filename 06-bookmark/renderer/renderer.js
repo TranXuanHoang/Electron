@@ -13,6 +13,28 @@ let showModal = document.getElementById('show-modal'),
   itemUrl = document.getElementById('url'),
   search = document.getElementById('search')
 
+// Open new item modal
+window.newItem = () => {
+  showModal.click()
+}
+
+// Ref items.open globally
+window.openItem = items.open
+
+// Ref items.delete globally
+window.deleteItem = () => {
+  let selectedItem = items.getSelectedItem()
+  items.delete(selectedItem.index)
+}
+
+// Open item in native browser
+window.openItemNative = items.openNative
+
+// Focus to search items
+window.searchItems = () => {
+  search.focus()
+}
+
 // Filter items with "search"
 search.addEventListener('keyup', e => {
   // Loop items
@@ -25,7 +47,7 @@ search.addEventListener('keyup', e => {
 
 // Navigate item selection with up/down arrows
 document.addEventListener('keydown', e => {
-  if (e.key ==='ArrowUp' || e.key == 'ArrowDown') {
+  if (e.key === 'ArrowUp' || e.key == 'ArrowDown') {
     items.changeSelection(e.key)
   }
 })
