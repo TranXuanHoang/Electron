@@ -12,6 +12,53 @@ fs.readFile(`${__dirname}/reader.js`, (err, data) => {
 // Track items in the local storage of the renderer's BrowserWindow
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || []
 
+// Listen for "Done" message from reader window
+window.addEventListener('message', e => {
+  console.log(e.data)
+  if (e.data.action === 'delete-reader-item') {
+    // Delete item at given index
+    this.delete(e.data.itemIndex)
+
+    // Close the reader window
+    e.source.close()
+  }
+})
+
+// Delete item
+exports.delete = itemIndex => {
+  // Remove item from DOM
+  items.removeChild(items.childNodes[itemIndex])
+
+  // Remove from storage
+  this.storage.splice(itemIndex, 1)
+
+  // Persist data
+  this.save()
+
+  // Select previous item or new first item if first was deleted
+  if (this.storage.length) {
+    // Get new selected item index
+    let newSelectedItemIndex = itemIndex === 0 ? 0 : itemIndex - 1
+
+    // Set item at new index as selected
+    document.getElementsByClassName('read-item')[newSelectedItemIndex].classList.add('selected')
+  }
+}
+
+// Get selected item index
+exports.getSelectedItem = () => {
+  // Get selected node
+  let currentItem = document.getElementsByClassName('read-item selected')[0]
+
+  // Get item index
+  let itemIndex = 0
+  let child = currentItem
+  while ((child = child.previousSibling) != null) itemIndex++
+
+  // Return selected item and index
+  return { node: currentItem, index: itemIndex }
+}
+
 // Persist 'storage' array to the browser's local storage
 exports.save = () => {
   localStorage.setItem('readit-items', JSON.stringify(this.storage))
@@ -20,7 +67,7 @@ exports.save = () => {
 // Indicate item as selected
 exports.select = e => {
   // Unselect currently selected item
-  document.getElementsByClassName('read-item selected')[0].classList.remove('selected')
+  this.getSelectedItem().node.classList.remove('selected')
 
   // Indicate newly selected item with different color on its left border
   e.currentTarget.classList.add('selected')
@@ -29,15 +76,15 @@ exports.select = e => {
 // Move to newly selected item with arrow up/down keys
 exports.changeSelection = direction => {
   // Get currently selected item
-  let currentItem = document.getElementsByClassName('read-item selected')[0]
+  let currentItem = this.getSelectedItem()
 
   // Handle up/down key
-  if (direction == 'ArrowUp' && currentItem.previousSibling) {
-    currentItem.classList.remove('selected')
-    currentItem.previousSibling.classList.add('selected')
-  } else if (direction == 'ArrowDown' && currentItem.nextSibling) {
-    currentItem.classList.remove('selected')
-    currentItem.nextSibling.classList.add('selected')
+  if (direction == 'ArrowUp' && currentItem.node.previousSibling) {
+    currentItem.node.classList.remove('selected')
+    currentItem.node.previousSibling.classList.add('selected')
+  } else if (direction == 'ArrowDown' && currentItem.node.nextSibling) {
+    currentItem.node.classList.remove('selected')
+    currentItem.node.nextSibling.classList.add('selected')
   }
 }
 
@@ -47,10 +94,10 @@ exports.open = () => {
   if (!this.storage.length) return
 
   // Get item currently being selected
-  let selectedItem = document.getElementsByClassName('read-item selected')[0]
+  let selectedItem = this.getSelectedItem()
 
   // Get item's URL
-  let contentURL = selectedItem.dataset.url
+  let contentURL = selectedItem.node.dataset.url
   let readerWin = window.open(contentURL, '', `
     maxWidth=2000,
     maxHeight=2000,
@@ -62,7 +109,9 @@ exports.open = () => {
   `)
 
   // Inject JavaScript code
-  readerWin.eval(readerJS)
+  // NOTE: the following eval() currently causes an error
+  // Error occurred in handler for 'ELECTRON_GUEST_WINDOW_MANAGER_WEB_CONTENTS_METHOD': Error: An object could not be cloned.
+  readerWin.eval(readerJS.replace('{index}', selectedItem.index))
 }
 
 // Add new item
