@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "watch": "nodemon --exec 'electron .'"
+    "watch": "nodemon --exec 'electron .'",
+    "gen-windows-self-cert": "electron-builder create-self-signed-cert -p 'self-learning-corp'"
   },
   "keywords": [
     "Electron",
@@ -33,7 +34,10 @@
             "ia32"
           ]
         }
-      ]
+      ],
+      "certificateFile": "./certs/self-learning-corp.pfx",
+      "certificatePassword": "",
+      "publisherName": "self-learning-corp"
     },
     "linux": {
       "category": "Utility"
