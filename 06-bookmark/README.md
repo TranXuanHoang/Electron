@@ -37,7 +37,7 @@ Steps to package and build apps that are ready for release:
 
 * [Sign code](https://www.electron.build/code-signing) with trusted certificates: _code signing_ makes the app be trusted by OSs when being downloaded and installed. For Windows apps, [Comodo](https://comodosslstore.com/code-signing) as an example provides code signing certificates to protect the softwares. [Apple Developer Program](https://developer.apple.com/support/certificates/) provides digital certificates for macOS apps.
 
-* Build apps for each OS platform using the [`electron-builder` CLI](https://www.electron.build/cli). For example, the following command will build apps for both macOS, Windows and Linux: 
+* Build apps for each OS platform using the [`electron-builder` CLI](https://www.electron.build/cli). For example, the following command will build apps for both macOS, Windows and Linux:
 
     ```shell
     electron-builder -mwl
@@ -45,7 +45,7 @@ Steps to package and build apps that are ready for release:
 
 ## Release App
 
-[electron-builder](https://www.electron.build/) CLI provides options to publish apps packaged and built as described in the [Package and Build App](#package-and-build-app) section. See [electron-builder publish guide](https://www.electron.build/configuration/publish) for more information on how to release apps. _The configuration of this project (package.json) configs to release our app to Github Release_
+[electron-builder](https://www.electron.build/) CLI provides options to publish apps packaged and built as described in the [Package and Build App](#package-and-build-app) section. See [electron-builder publish guide](https://www.electron.build/configuration/publish) for more information on how to release apps. _The configuration of this project (package.json) configs to release our app to [Github Release](https://docs.github.com/en/github/administering-a-repository/about-releases)_.
 
 * Generate a _personal access token_ in `Github > Settings > Personal access tokens` and assign the token to a scope of `repo`.
 
@@ -93,3 +93,22 @@ then specify build configs in the `package.json` file like below
     # Linux
     export GH_TOKEN=personal_access_token && npm run release
     ```
+
+## Auto Update App
+
+[electron-updater](https://www.electron.build/auto-update), an other package used together with `electron-builder`, supports updating apps on multiple OS platforms. Install the package by runing
+
+```PowerShell
+npm i electron-updater
+```
+
+For [debugging app auto update](https://www.electron.build/auto-update#debugging) with `electron-updater`, also install `electron-log`
+
+```powershell
+npm i electron-log
+
+# Or install as a dev dependency only
+npm i -D electron-log
+```
+
+Define an update module (e.g. [updater.js](./updater.js)) using `electron-updater` and `electron-log`, then import and call app update logic in the main app logic.

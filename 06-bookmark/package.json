@@ -1,6 +1,6 @@
 {
   "name": "06-bookmark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bookmark your favorite websites",
   "main": "main.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "watch": "nodemon --exec 'electron .'",
     "gen-windows-self-cert": "electron-builder create-self-signed-cert -p 'self-learning-corp'",
     "build-win": "electron-builder -w",
-    "release": "electron-builder -mwl --publish 'onTagOrDraft'"
+    "release": "electron-builder -w --publish 'onTagOrDraft'"
   },
   "repository": {
     "url": "https://github.com/TranXuanHoang/Electron",
@@ -59,6 +59,8 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "electron-log": "^4.2.2",
+    "electron-updater": "^4.3.4",
     "electron-window-state": "^5.0.3"
   }
 }

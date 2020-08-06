@@ -6,6 +6,7 @@ const { app, BrowserWindow, ipcMain } = electron
 const windowStateKeeper = require('electron-window-state')
 
 const readItem = require('./readItem')
+const updater = require('./updater')
 
 let mainWindow
 
@@ -35,11 +36,18 @@ function createWindow() {
   mainWindowState.manage(mainWindow)
 }
 
+// Update app if new release available
+function updateApp() {
+  // Check for app update after waiting for 1.5s
+  setTimeout(updater, 1500)
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
+  updateApp()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
