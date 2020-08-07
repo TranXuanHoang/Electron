@@ -112,3 +112,9 @@ npm i -D electron-log
 ```
 
 Define an update module (e.g. [updater.js](./updater.js)) using `electron-updater` and `electron-log`, then import and call app update logic in the main app logic.
+
+## App Snapshot
+
+<p align="center">
+<img src="./docs/AppSnapshot.gif" width="300px">
+</p>
