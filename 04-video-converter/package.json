@@ -9,7 +9,7 @@
   },
   "author": "",
   "devDependencies": {
-    "electron": "^9.1.0"
+    "electron": "^18.3.7"
   },
   "dependencies": {
     "babel-core": "^6.26.3",
